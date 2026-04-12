@@ -1,49 +1,28 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
+// Keep Colors for backward compat with existing Expo Router layout
 export const Colors = {
   light: {
-    text: '#11181C',
+    text: '#0F0A1E',
     background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    tint: '#6C47FF',
+    icon: '#9B9BA8',
+    tabIconDefault: '#9B9BA8',
+    tabIconSelected: '#6C47FF',
   },
   dark: {
     text: '#ECEDEE',
     background: '#151718',
-    tint: tintColorDark,
+    tint: '#6C47FF',
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    tabIconSelected: '#6C47FF',
   },
 };
 
 export const Fonts = Platform.select({
-  ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
-  },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
-  },
+  ios: { sans: 'system-ui', serif: 'ui-serif', rounded: 'ui-rounded', mono: 'ui-monospace' },
+  default: { sans: 'normal', serif: 'serif', rounded: 'normal', mono: 'monospace' },
   web: {
     sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
     serif: "Georgia, 'Times New Roman', serif",
@@ -51,3 +30,44 @@ export const Fonts = Platform.select({
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
+// ─── Design Tokens ────────────────────────────────────────────────────────────
+
+export const COLORS = {
+  primary: "#6C47FF",
+  primaryLight: "#EEE9FF",
+  primaryDark: "#4A2FD9",
+  orange: "#FF7B47",
+  orangeLight: "#FFF0EA",
+  white: "#FFFFFF",
+  background: "#F7F7FA",
+  text: "#0F0A1E",
+  textMuted: "#9B9BA8",
+  gray100: "#F4F4F8",
+  gray200: "#E8E8F0",
+  gray300: "#D1D1DC",
+  gray400: "#9CA3AF",
+  gray600: "#4B5563",
+  black: "#000000",
+  green: "#1DB954",
+  red: "#EF4444",
+};
+
+export const SPACING = {
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 20,
+  xxl: 24,
+  xxxl: 32,
+};
+
+export const RADIUS = {
+  sm: 6,
+  md: 10,
+  lg: 16,
+  xl: 20,
+  xxl: 28,
+  full: 9999,
+};
