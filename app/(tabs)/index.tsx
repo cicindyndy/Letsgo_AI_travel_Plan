@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { COLORS, SPACING, RADIUS } from "@/constants/theme";
 
 // Renders a real OSM map on web via iframe, fallback solid color on native
@@ -350,11 +351,24 @@ export default function ExploreScreen() {
       </View>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll} contentContainerStyle={styles.categoryContent}>
-        {CATEGORIES.map((cat, i) => (
-          <TouchableOpacity key={i} style={[styles.pill, activeCategory === i && styles.pillActive]} onPress={() => setActiveCategory(i)}>
-            <Text style={[styles.pillText, activeCategory === i && styles.pillTextActive]}>{cat}</Text>
-          </TouchableOpacity>
-        ))}
+        {CATEGORIES.map((cat, i) =>
+          activeCategory === i ? (
+            <TouchableOpacity key={i} onPress={() => setActiveCategory(i)} style={styles.pillWrapper}>
+              <LinearGradient
+                colors={["#8B5CF6", "#3B82F6"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.pillGradient}
+              >
+                <Text style={styles.pillTextActive}>{cat}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity key={i} style={styles.pill} onPress={() => setActiveCategory(i)}>
+              <Text style={styles.pillText}>{cat}</Text>
+            </TouchableOpacity>
+          )
+        )}
       </ScrollView>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
@@ -497,12 +511,13 @@ const styles = StyleSheet.create({
   logoRow: { flexDirection: "row", alignItems: "center", gap: SPACING.sm },
   logoImage: { width: 34, height: 34 },
   logoText: { fontSize: 22, fontWeight: "800", color: COLORS.primary },
-  categoryScroll: { maxHeight: 48 },
+  categoryScroll: { maxHeight: 44 },
   categoryContent: { paddingHorizontal: SPACING.xl, gap: SPACING.sm, alignItems: "center" },
-  pill: { paddingHorizontal: SPACING.lg, paddingVertical: SPACING.sm, borderRadius: RADIUS.full, borderWidth: 1.5, borderColor: COLORS.gray200, backgroundColor: COLORS.white },
-  pillActive: { backgroundColor: COLORS.primary, borderColor: COLORS.primary },
-  pillText: { fontSize: 12, fontWeight: "700", color: COLORS.gray600, letterSpacing: 0.3 },
-  pillTextActive: { color: COLORS.white },
+  pillWrapper: { borderRadius: RADIUS.full, overflow: "hidden" },
+  pillGradient: { paddingHorizontal: 24, paddingVertical: 10, borderRadius: RADIUS.full },
+  pill: { paddingHorizontal: 24, paddingVertical: 10, borderRadius: RADIUS.full, backgroundColor: COLORS.gray100 },
+  pillText: { fontSize: 13, fontWeight: "600", color: COLORS.gray600 },
+  pillTextActive: { fontSize: 13, fontWeight: "700", color: COLORS.white },
   scrollContent: { paddingBottom: SPACING.xxxl },
   attractionCard: { marginHorizontal: SPACING.xl, marginTop: SPACING.lg, borderRadius: RADIUS.xl, overflow: "hidden" },
   attractionImage: { width: "100%", height: 220 },
