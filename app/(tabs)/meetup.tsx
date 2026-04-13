@@ -151,8 +151,217 @@ function EventDetailScreen({ onBack }: { onBack: () => void }) {
   );
 }
 
+// ─── Elena Full Profile Screen ───────────────────────────────────────────────
+const PROFILE_TABS = ["GROUP TRIPS", "SHARED ITINERARIES", "POSTS"];
+
+function ElenaFullProfileScreen({ onBack }: { onBack: () => void }) {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const ProfileHeader = () => (
+    <>
+      <View style={styles.fpHeader}>
+        <TouchableOpacity onPress={onBack}>
+          <Ionicons name="arrow-back" size={24} color={COLORS.text} />
+        </TouchableOpacity>
+        <Text style={styles.fpHeaderTitle}>Profile</Text>
+        <TouchableOpacity><Ionicons name="add" size={26} color={COLORS.text} /></TouchableOpacity>
+      </View>
+      <View style={styles.fpAvatarRow}>
+        <View style={styles.fpAvatarWrap}>
+          <Image
+            source={{ uri: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300" }}
+            style={styles.fpAvatar}
+          />
+          <View style={styles.fpVerifiedDot}>
+            <Ionicons name="checkmark" size={12} color={COLORS.white} />
+          </View>
+        </View>
+      </View>
+      <View style={styles.fpBio}>
+        <Text style={styles.fpName}>Elena Karsten</Text>
+        <View style={styles.fpHandleRow}>
+          <Text style={styles.fpHandle}>@elena_wanders</Text>
+          <Text style={styles.fpDot}> • </Text>
+          <Text style={styles.fpNomad}>Global Nomad</Text>
+        </View>
+        <Text style={styles.fpBioText}>
+          Chasing sunsets and secret espresso bars across Southern Europe. Currently plotting my next escape to the New York. 🌟📍{"\n"}Lisbon, Rome
+        </Text>
+      </View>
+      <View style={styles.fpStats}>
+        {[{ val: "142", label: "POSTS" }, { val: "12.4k", label: "FOLLOWERS" }, { val: "842", label: "FOLLOWING" }].map((s) => (
+          <View key={s.label} style={styles.fpStatItem}>
+            <Text style={styles.fpStatVal}>{s.val}</Text>
+            <Text style={styles.fpStatLabel}>{s.label}</Text>
+          </View>
+        ))}
+      </View>
+      <View style={styles.fpBtnRow}>
+        <TouchableOpacity style={styles.fpFollowBtn}>
+          <Text style={styles.fpFollowBtnText}>FOLLOW</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.fpMsgBtn}>
+          <Text style={styles.fpMsgBtnText}>MESSAGE</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.fpTabsRow}>
+        {PROFILE_TABS.map((t, i) => (
+          <TouchableOpacity key={t} style={styles.fpTab} onPress={() => setActiveTab(i)}>
+            <Text style={[styles.fpTabText, activeTab === i && styles.fpTabTextActive]}>{t}</Text>
+            {activeTab === i && <View style={styles.fpTabIndicator} />}
+          </TouchableOpacity>
+        ))}
+      </View>
+    </>
+  );
+
+  const RecentJourneys = () => (
+    <View style={styles.fpJourneysSection}>
+      <View style={styles.fpJourneysHeader}>
+        <Text style={styles.fpJourneysTitle}>Recent Journeys</Text>
+        <TouchableOpacity><Text style={styles.fpViewAll}>VIEW ALL</Text></TouchableOpacity>
+      </View>
+      {[
+        { title: "The Amalfi Expedition", meta: "14 Days • June 2023", image: "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?w=300" },
+        { title: "Foggy City Week", meta: "5 Days • March 2023", image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=300" },
+      ].map((j) => (
+        <View key={j.title} style={styles.fpJourneyRow}>
+          <Image source={{ uri: j.image }} style={styles.fpJourneyThumb} resizeMode="cover" />
+          <View style={styles.fpJourneyInfo}>
+            <Text style={styles.fpJourneyTitle}>{j.title}</Text>
+            <Text style={styles.fpJourneyMeta}>{j.meta}</Text>
+          </View>
+          <View style={styles.completedBadge}>
+            <Text style={styles.completedBadgeText}>COMPLETED</Text>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+
+  // GROUP TRIPS tab
+  const GroupTripsTab = () => (
+    <>
+      {/* Active trip card */}
+      <View style={styles.fpTripCard}>
+        <Image
+          source={{ uri: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700" }}
+          style={styles.fpTripImage}
+          resizeMode="cover"
+        />
+        <View style={styles.fpTripOverlay} />
+        <View style={styles.fpTripContent}>
+          <Text style={styles.fpTripTitle}>Winter Ascent: Dolomites Traverse</Text>
+          <View style={styles.fpTripMeta}>
+            <Ionicons name="calendar-outline" size={13} color="rgba(255,255,255,0.9)" />
+            <Text style={styles.fpTripMetaText}>Dec 15 - Dec 22, 2024</Text>
+            <View style={styles.fpTripAvatars}>
+              {["https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60",
+                "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=60"].map((u, i) => (
+                <Image key={i} source={{ uri: u }} style={[styles.fpTripAvatar, { left: i * 16 }]} />
+              ))}
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Next goal card */}
+      <View style={styles.fpNextGoalCard}>
+        <Text style={styles.fpNextGoalLabel}>NEXT GOAL</Text>
+        <Text style={styles.fpNextGoalTitle}>Patagonia Expedition 2025</Text>
+        <View style={styles.fpProgressTrack}>
+          <View style={styles.fpProgressFill} />
+        </View>
+        <Text style={styles.fpProgressPct}>65%</Text>
+      </View>
+
+      {/* Post new group trip */}
+      <TouchableOpacity style={styles.fpNewTripCard}>
+        <View style={styles.fpNewTripIcon}>
+          <Ionicons name="add" size={22} color={COLORS.text} />
+        </View>
+        <Text style={styles.fpNewTripText}>POST NEW{"\n"}GROUP TRIP</Text>
+      </TouchableOpacity>
+
+      <RecentJourneys />
+    </>
+  );
+
+  // SHARED ITINERARIES tab
+  const SharedItinerariesTab = () => (
+    <View style={styles.fpItinList}>
+      {[
+        { title: "Amalfi Coast Secret Spots", meta: "May 2024 • 14 days", tags: ["HIKING", "COASTAL"], image: "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?w=700" },
+        { title: "Golden Triangle Heritage", meta: "Feb 2024 • 8 days", tags: ["HISTORY", "CULTURE"], image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=700" },
+        { title: "Northern Vietnam Peaks", meta: "Oct 2023 • 21 days", tags: ["SOLO", "NATURE"], image: "https://images.unsplash.com/photo-1528127269322-539801943592?w=700" },
+      ].map((item) => (
+        <View key={item.title} style={styles.fpItinCard}>
+          <Image source={{ uri: item.image }} style={styles.fpItinImage} resizeMode="cover" />
+          <View style={styles.fpItinOverlay} />
+          <View style={styles.fpItinContent}>
+            <Text style={styles.fpItinTitle}>{item.title}</Text>
+            <View style={styles.fpItinMetaRow}>
+              <Ionicons name="flag-outline" size={12} color="rgba(255,255,255,0.85)" />
+              <Text style={styles.fpItinMeta}>{item.meta}</Text>
+            </View>
+            <View style={styles.fpItinTags}>
+              {item.tags.map((tag) => (
+                <View key={tag} style={styles.fpItinTag}>
+                  <Text style={styles.fpItinTagText}>{tag}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+
+  // POSTS tab
+  const PostsTab = () => (
+    <View style={styles.fpPostsGrid}>
+      {/* Full-width hero */}
+      <Image
+        source={{ uri: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=700" }}
+        style={styles.fpPostFull}
+        resizeMode="cover"
+      />
+      {/* 2-col row */}
+      <View style={styles.fpPostRow}>
+        <Image source={{ uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400" }} style={styles.fpPostHalf} resizeMode="cover" />
+        <Image source={{ uri: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=400" }} style={styles.fpPostHalf} resizeMode="cover" />
+      </View>
+      {/* Curated vibe + beach row */}
+      <View style={styles.fpPostRow}>
+        <View style={[styles.fpPostHalf, styles.fpCuratedCard]}>
+          <Ionicons name="search-outline" size={18} color={COLORS.white} />
+          <Text style={styles.fpCuratedLabel}>CURATED VIBE</Text>
+          <Text style={styles.fpCuratedTitle}>Coastal{"\n"}Minimalist</Text>
+        </View>
+        <Image source={{ uri: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400" }} style={styles.fpPostHalf} resizeMode="cover" />
+      </View>
+      {/* Single wide */}
+      <Image source={{ uri: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=700" }} style={styles.fpPostFull} resizeMode="cover" />
+      <RecentJourneys />
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={[styles.root, { backgroundColor: "#F9F7FF" }]} edges={["top"]}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: SPACING.xxxl }}>
+        <ProfileHeader />
+        <View style={{ backgroundColor: COLORS.white, paddingTop: SPACING.md }}>
+          {activeTab === 0 && <GroupTripsTab />}
+          {activeTab === 1 && <SharedItinerariesTab />}
+          {activeTab === 2 && <PostsTab />}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
 // ─── Elena K. Profile Screen ─────────────────────────────────────────────────
-function ElenaProfileScreen({ onBack, onInvite }: { onBack: () => void; onInvite: () => void }) {
+function ElenaProfileScreen({ onBack, onInvite, onViewProfile }: { onBack: () => void; onInvite: () => void; onViewProfile: () => void }) {
   const INTERESTS = [
     { label: "Coffee", icon: "cafe-outline" as const },
     { label: "Hiking", icon: "walk-outline" as const },
@@ -195,7 +404,7 @@ function ElenaProfileScreen({ onBack, onInvite }: { onBack: () => void; onInvite
           <Text style={styles.profileBio}>
             "Avid hiker and coffee lover, currently exploring NYC! Looking for local secrets and fellow explorers."
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onViewProfile}>
             <Text style={styles.viewProfileLink}>View Profile {">"}</Text>
           </TouchableOpacity>
         </View>
@@ -454,11 +663,12 @@ function AllSetScreen({ onDone }: { onDone: () => void }) {
 
 // ─── Main Meetup Screen ───────────────────────────────────────────────────────
 export default function MeetupScreen() {
-  const [screen, setScreen] = useState<"main" | "detail" | "profile" | "invite" | "sent">("main");
+  const [screen, setScreen] = useState<"main" | "detail" | "profile" | "fullprofile" | "invite" | "sent">("main");
 
   if (screen === "sent") return <AllSetScreen onDone={() => setScreen("main")} />;
   if (screen === "invite") return <CoffeeChatScreen onBack={() => setScreen("profile")} onSend={() => setScreen("sent")} />;
-  if (screen === "profile") return <ElenaProfileScreen onBack={() => setScreen("main")} onInvite={() => setScreen("invite")} />;
+  if (screen === "fullprofile") return <ElenaFullProfileScreen onBack={() => setScreen("profile")} />;
+  if (screen === "profile") return <ElenaProfileScreen onBack={() => setScreen("main")} onInvite={() => setScreen("invite")} onViewProfile={() => setScreen("fullprofile")} />;
   if (screen === "detail") return <EventDetailScreen onBack={() => setScreen("main")} />;
 
   return (
@@ -841,6 +1051,97 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
   },
   findMateBtnText: { fontSize: 13, fontWeight: "700", color: COLORS.primary, letterSpacing: 0.5 },
+
+  // Elena full profile
+  fpHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: SPACING.xl, paddingVertical: SPACING.md, backgroundColor: "#F9F7FF" },
+  fpHeaderTitle: { fontSize: 18, fontWeight: "700", color: COLORS.text },
+  fpAvatarRow: { alignItems: "flex-start", paddingHorizontal: SPACING.xl, paddingTop: SPACING.md, backgroundColor: "#F9F7FF" },
+  fpAvatarWrap: { position: "relative" },
+  fpAvatar: { width: 84, height: 84, borderRadius: RADIUS.xl, backgroundColor: COLORS.gray200 },
+  fpVerifiedDot: {
+    position: "absolute", bottom: -2, right: -2,
+    width: 26, height: 26, borderRadius: 13,
+    backgroundColor: COLORS.primary, alignItems: "center", justifyContent: "center",
+    borderWidth: 2, borderColor: COLORS.white,
+  },
+  fpBio: { paddingHorizontal: SPACING.xl, paddingTop: SPACING.md, gap: 4, backgroundColor: "#F9F7FF" },
+  fpName: { fontSize: 26, fontWeight: "800", color: COLORS.text },
+  fpHandleRow: { flexDirection: "row", alignItems: "center" },
+  fpHandle: { fontSize: 13, color: COLORS.textMuted },
+  fpDot: { fontSize: 13, color: COLORS.textMuted },
+  fpNomad: { fontSize: 13, fontWeight: "700", color: COLORS.primary },
+  fpBioText: { fontSize: 13, color: COLORS.gray600, lineHeight: 20, marginTop: 4 },
+  fpStats: { flexDirection: "row", paddingHorizontal: SPACING.xl, paddingVertical: SPACING.lg, gap: SPACING.xxxl, backgroundColor: "#F9F7FF" },
+  fpStatItem: { alignItems: "flex-start", gap: 2 },
+  fpStatVal: { fontSize: 20, fontWeight: "800", color: COLORS.text },
+  fpStatLabel: { fontSize: 10, fontWeight: "600", color: COLORS.textMuted, letterSpacing: 0.5 },
+  fpBtnRow: { flexDirection: "row", paddingHorizontal: SPACING.xl, gap: SPACING.md, paddingBottom: SPACING.lg, backgroundColor: "#F9F7FF" },
+  fpFollowBtn: { flex: 1, backgroundColor: COLORS.primary, borderRadius: RADIUS.full, paddingVertical: SPACING.md, alignItems: "center" },
+  fpFollowBtnText: { fontSize: 13, fontWeight: "800", color: COLORS.white, letterSpacing: 0.5 },
+  fpMsgBtn: { flex: 1, backgroundColor: COLORS.gray100, borderRadius: RADIUS.full, paddingVertical: SPACING.md, alignItems: "center", borderWidth: 1, borderColor: COLORS.gray200 },
+  fpMsgBtnText: { fontSize: 13, fontWeight: "700", color: COLORS.text, letterSpacing: 0.5 },
+  fpTabsRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: COLORS.gray200, backgroundColor: "#F9F7FF" },
+  fpTab: { flex: 1, alignItems: "center", paddingVertical: SPACING.md, position: "relative" },
+  fpTabText: { fontSize: 11, fontWeight: "600", color: COLORS.textMuted, letterSpacing: 0.3, textAlign: "center" },
+  fpTabTextActive: { color: COLORS.primary, fontWeight: "700" },
+  fpTabIndicator: { position: "absolute", bottom: 0, height: 2, width: "80%", backgroundColor: COLORS.primary, borderRadius: 1 },
+  // Group trips
+  fpTripCard: { marginHorizontal: SPACING.xl, marginTop: SPACING.lg, borderRadius: RADIUS.xl, overflow: "hidden", height: 200, marginBottom: SPACING.md },
+  fpTripImage: { width: "100%", height: "100%" },
+  fpTripOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.4)" },
+  fpTripContent: { position: "absolute", bottom: SPACING.lg, left: SPACING.lg, right: SPACING.lg },
+  fpTripTitle: { fontSize: 20, fontWeight: "800", color: COLORS.white, lineHeight: 26, marginBottom: SPACING.sm },
+  fpTripMeta: { flexDirection: "row", alignItems: "center", gap: SPACING.sm },
+  fpTripMetaText: { fontSize: 12, color: "rgba(255,255,255,0.9)", fontWeight: "600", flex: 1 },
+  fpTripAvatars: { flexDirection: "row", width: 2 * 16 + 24 },
+  fpTripAvatar: { position: "absolute", width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: COLORS.white, backgroundColor: COLORS.gray200 },
+  fpNextGoalCard: {
+    marginHorizontal: SPACING.xl, marginBottom: SPACING.md,
+    backgroundColor: "#1A2B4A", borderRadius: RADIUS.xl, padding: SPACING.lg, gap: SPACING.sm,
+  },
+  fpNextGoalLabel: { fontSize: 10, fontWeight: "700", color: "rgba(255,255,255,0.6)", letterSpacing: 1 },
+  fpNextGoalTitle: { fontSize: 18, fontWeight: "800", color: COLORS.white },
+  fpProgressTrack: { height: 4, backgroundColor: "rgba(255,255,255,0.2)", borderRadius: 2, marginTop: SPACING.sm },
+  fpProgressFill: { width: "65%", height: 4, backgroundColor: COLORS.white, borderRadius: 2 },
+  fpProgressPct: { fontSize: 12, color: "rgba(255,255,255,0.7)", fontWeight: "600", textAlign: "right" },
+  fpNewTripCard: {
+    marginHorizontal: SPACING.xl, marginBottom: SPACING.xl,
+    backgroundColor: "#FDECEA", borderRadius: RADIUS.xl,
+    paddingVertical: SPACING.xl, alignItems: "center", gap: SPACING.sm,
+  },
+  fpNewTripIcon: { width: 40, height: 40, borderRadius: 20, backgroundColor: "rgba(0,0,0,0.1)", alignItems: "center", justifyContent: "center" },
+  fpNewTripText: { fontSize: 13, fontWeight: "800", color: COLORS.text, textAlign: "center", letterSpacing: 0.3 },
+  fpJourneysSection: { paddingHorizontal: SPACING.xl, paddingBottom: SPACING.xxl },
+  fpJourneysHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: SPACING.md },
+  fpJourneysTitle: { fontSize: 22, fontWeight: "800", color: COLORS.text },
+  fpViewAll: { fontSize: 12, fontWeight: "700", color: COLORS.primary },
+  fpJourneyRow: { flexDirection: "row", alignItems: "center", gap: SPACING.md, paddingVertical: SPACING.md, borderBottomWidth: 1, borderBottomColor: COLORS.gray100 },
+  fpJourneyThumb: { width: 60, height: 60, borderRadius: RADIUS.lg, backgroundColor: COLORS.gray200 },
+  fpJourneyInfo: { flex: 1 },
+  fpJourneyTitle: { fontSize: 14, fontWeight: "700", color: COLORS.text },
+  fpJourneyMeta: { fontSize: 12, color: COLORS.textMuted, marginTop: 2 },
+  completedBadge: { backgroundColor: "#FFF0E8", paddingHorizontal: SPACING.sm, paddingVertical: 4, borderRadius: RADIUS.sm },
+  completedBadgeText: { fontSize: 10, fontWeight: "700", color: COLORS.orange, letterSpacing: 0.3 },
+  // Shared itineraries
+  fpItinList: { paddingHorizontal: SPACING.xl, paddingTop: SPACING.lg, gap: SPACING.md, paddingBottom: SPACING.xxl },
+  fpItinCard: { borderRadius: RADIUS.xl, overflow: "hidden", height: 220, position: "relative" },
+  fpItinImage: { width: "100%", height: "100%" },
+  fpItinOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.45)" },
+  fpItinContent: { position: "absolute", bottom: SPACING.lg, left: SPACING.lg, right: SPACING.lg, gap: SPACING.sm },
+  fpItinTitle: { fontSize: 18, fontWeight: "800", color: COLORS.white },
+  fpItinMetaRow: { flexDirection: "row", alignItems: "center", gap: 5 },
+  fpItinMeta: { fontSize: 12, color: "rgba(255,255,255,0.85)", fontWeight: "600" },
+  fpItinTags: { flexDirection: "row", gap: SPACING.xs },
+  fpItinTag: { backgroundColor: "rgba(255,255,255,0.2)", paddingHorizontal: SPACING.sm, paddingVertical: 3, borderRadius: RADIUS.full },
+  fpItinTagText: { fontSize: 10, fontWeight: "700", color: COLORS.white, letterSpacing: 0.3 },
+  // Posts
+  fpPostsGrid: { gap: SPACING.sm, paddingHorizontal: SPACING.xl, paddingTop: SPACING.lg },
+  fpPostFull: { width: "100%", height: 220, borderRadius: RADIUS.xl, backgroundColor: COLORS.gray200 },
+  fpPostRow: { flexDirection: "row", gap: SPACING.sm },
+  fpPostHalf: { flex: 1, height: 160, borderRadius: RADIUS.xl, backgroundColor: COLORS.gray200 },
+  fpCuratedCard: { backgroundColor: "#0D9488", justifyContent: "flex-end", padding: SPACING.md, gap: 4 },
+  fpCuratedLabel: { fontSize: 9, fontWeight: "700", color: "rgba(255,255,255,0.7)", letterSpacing: 1 },
+  fpCuratedTitle: { fontSize: 16, fontWeight: "800", color: COLORS.white, lineHeight: 22 },
 
   // Elena profile
   profileAvatarWrap: { alignItems: "center", paddingTop: SPACING.lg, position: "relative" },
